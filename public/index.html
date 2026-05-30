@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Settlement | BTC/ETH/USDT → Bank</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{background:#0a0c14;color:#eef5ff;font-family:system-ui;padding:1.5rem}
+        .container{max-width:1300px;margin:0 auto}
+        .card{background:rgba(12,20,30,0.9);border-radius:2rem;border:1px solid #2bff9e30;padding:1.8rem;margin-bottom:1.8rem}
+        h1{font-size:2rem;background:linear-gradient(135deg,#b9ffb0,#2bff9e);-webkit-background-clip:text;background-clip:text;color:transparent}
+        input,button,select{background:#111a22;border:1px solid #2a3a44;padding:0.7rem 1rem;border-radius:2rem;color:white;width:100%;margin-top:0.5rem}
+        button{background:#0f2a1f;border-color:#2bff9e;cursor:pointer;font-weight:bold}
+        .flex{display:flex;gap:1rem;flex-wrap:wrap}
+        .status{padding:0.2rem 0.7rem;border-radius:20px;font-size:0.7rem;display:inline-block}
+        .pending{background:#6a3e1a;color:#ffcd94}
+        .received{background:#0f4d2e;color:#aaffcc}
+        .credited{background:#1e5a3a;color:#ccffcc}
+        table{width:100%;border-collapse:collapse;font-size:0.8rem}
+        th,td{padding:0.8rem 0.2rem;border-bottom:1px solid #1f2a36;text-align:left}
+        .mono{font-family:monospace}
+        .hidden{display:none}
+        .alert{background:#1f2a1a;padding:0.8rem;border-radius:1rem;margin-top:0.8rem}
+    </style>
+</head>
+<body>
+<div class="container" id="app">
+    <div id="authView">
+        <div class="card">
+            <h1>◈ NEXUS SETTLEMENT</h1>
+            <p>BTC · ETH · USDT → Bank credit in 48 hours</p>
+            <div class="flex" style="margin:1.5rem 0;">
+                <button id="showLoginBtn">LOGIN</button>
+                <button id="showRegBtn">REGISTER</button>
+            </div>
+            <div id="loginForm">
+                <input type="email" id="loginEmail" placeholder="Email">
+                <input type="password" id="loginPassword" placeholder="Password">
+                <button id="doLogin">Unlock</button>
+                <div id="loginMsg" class="alert"></div>
+            </div>
+            <div id="regForm" class="hidden">
+                <input type="email" id="regEmail" placeholder="Email">
+                <input type="password" id="regPassword" placeholder="Password">
+                <input type="password" id="regConfirm" placeholder="Confirm">
+                <button id="requestOtp">Send OTP (real email)</button>
+                <div id="otpSection" class="hidden">
+                    <input type="text" id="otpCode" placeholder="6-digit OTP">
+                    <button id="verifyOtp">Verify & Register</button>
+                </div>
+                <div id="regMsg" class="alert"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="dashboardView" class="hidden">
+        <div class="card" style="display:flex; justify-content:space-between;">
+            <h2>🏦 Settlement Dashboard</h2>
+            <div><span id="userEmail"></span> <button id="logoutBtn">Exit</button></div>
+        </div>
+        <div class="card">
+            <h3>➕ Create Deposit Order</h3>
+            <div class="flex">
+                <select id="assetSelect">
+                    <option value="BTC">Bitcoin (BTC)</option>
+                    <option value="ETH">Ethereum (ETH)</option>
+                    <option value="USDT">Tether (USDT)</option>
+                </select>
+                <input type="number" id="orderAmount" step="0.001" placeholder="Amount">
+                <button id="createOrderBtn">Create Order</button>
+            </div>
+            <div class="alert" id="orderInfo"></div>
+        </div>
+        <div class="card">
+            <h3>📡 Your Transactions & Bank Credit</h3>
+            <table id="ordersTable">
+                <thead><tr><th>ID</th><th>Asset</th><th>Amount</th><th>Status</th><th>Detected</th><th>Bank Credit ETA / Ref</th></thead>
+                <tbody id="ordersBody"><tr><td colspan="6">Loading...</tr>;</tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    const API = '';
+    async function fetchJSON(url, options={}) {
+        const res = await fetch(url, { ...options, headers:{'Content-Type':'application/json'} });
+        if(!res.ok) throw new Error((await res.json()).error || 'Request failed');
+        return res.json();
+    }
+    let currentUser = null;
+    document.getElementById('showLoginBtn')?.addEventListener('click',()=>{ showLogin(); });
+    document.getElementById('showRegBtn')?.addEventListener('click',()=>{ showReg(); });
+    function showLogin(){ document.getElementById('loginForm').classList.remove('hidden'); document.getElementById('regForm').classList.add('hidden'); }
+    function showReg(){ document.getElementById('loginForm').classList.add('hidden'); document.getElementById('regForm').classList.remove('hidden'); }
+    document.getElementById('requestOtp')?.addEventListener('click', async ()=>{
+        const email = document.getElementById('regEmail').value;
+        if(!email) return alert('Enter email');
+        try {
+            await fetchJSON(`${API}/api/request-otp`, { method:'POST', body:JSON.stringify({ email }) });
+            document.getElementById('otpSection').classList.remove('hidden');
+            document.getElementById('regMsg').innerHTML = '✅ OTP sent to your email.';
+        } catch(e){ document.getElementById('regMsg').innerHTML = e.message; }
+    });
+    document.getElementById('verifyOtp')?.addEventListener('click', async ()=>{
+        const email = document.getElementById('regEmail').value;
+        const pwd = document.getElementById('regPassword').value;
+        const confirm = document.getElementById('regConfirm').value;
+        const otp = document.getElementById('otpCode').value;
+        if(pwd !== confirm) return alert('Passwords mismatch');
+        try {
+            await fetchJSON(`${API}/api/register`, { method:'POST', body:JSON.stringify({ email, password:pwd, otp }) });
+            alert('Registration success! Please login.');
+            showLogin();
+            document.getElementById('loginEmail').value = email;
+        } catch(e){ document.getElementById('regMsg').innerHTML = e.message; }
+    });
+    document.getElementById('doLogin')?.addEventListener('click', async ()=>{
+        const email = document.getElementById('loginEmail').value;
+        const pwd = document.getElementById('loginPassword').value;
+        try {
+            const data = await fetchJSON(`${API}/api/login`, { method:'POST', body:JSON.stringify({ email, password:pwd }) });
+            currentUser = data.user;
+            await loadDashboard();
+        } catch(e){ document.getElementById('loginMsg').innerHTML = e.message; }
+    });
+    document.getElementById('logoutBtn')?.addEventListener('click', async ()=>{
+        await fetchJSON(`${API}/api/logout`, { method:'POST' });
+        location.reload();
+    });
+    async function loadDashboard() {
+        const data = await fetchJSON(`${API}/api/me`);
+        document.getElementById('userEmail').innerText = data.user.email;
+        renderOrders(data.orders);
+        document.getElementById('authView').classList.add('hidden');
+        document.getElementById('dashboardView').classList.remove('hidden');
+    }
+    function renderOrders(orders) {
+        const tbody = document.getElementById('ordersBody');
+        if(!orders.length){ tbody.innerHTML='<tr><td colspan="6">No orders. Create one above.</td></tr>'; return; }
+        let html='';
+        for(let o of orders){
+            let statusClass = o.status==='pending_match'?'pending':(o.status==='received'?'received':'credited');
+            let eta = '';
+            if(o.status==='received' && o.scheduled_credit_at){
+                const diff = o.scheduled_credit_at - Date.now();
+                if(diff>0) eta = `${Math.floor(diff/3600000)}h ${Math.floor((diff%3600000)/60000)}m`;
+                else eta = 'Processing';
+            } else if(o.status==='credited') eta = `SWIFT: ${o.swift_ref || 'completed'}`;
+            else eta = '—';
+            html += `<tr>
+                <td class="mono">${o.id}</td>
+                <td>${o.asset}</td>
+                <td>${o.amount}</td>
+                <td><span class="status ${statusClass}">${o.status}</span></td>
+                <td>${o.received_at ? new Date(o.received_at).toLocaleString() : '—'}</td>
+                <td>${eta}</td>
+            </tr>`;
+        }
+        tbody.innerHTML = html;
+    }
+    document.getElementById('createOrderBtn')?.addEventListener('click', async ()=>{
+        const asset = document.getElementById('assetSelect').value;
+        const amount = parseFloat(document.getElementById('orderAmount').value);
+        if(isNaN(amount) || amount<=0) return alert('Enter valid amount');
+        try {
+            const res = await fetchJSON(`${API}/api/create-order`, { method:'POST', body:JSON.stringify({ asset, amount }) });
+            document.getElementById('orderInfo').innerHTML = `✅ Order created! Send exactly ${amount} ${asset} to:<br/><span class="mono">${res.address}</span><br/>It will auto-detect within 2 minutes.`;
+            loadDashboard();
+        } catch(e){ alert(e.message); }
+    });
+    setInterval(()=>{ if(document.getElementById('dashboardView') && !document.getElementById('dashboardView').classList.contains('hidden')) loadDashboard(); }, 5000);
+</script>
+</body>
+</html>
