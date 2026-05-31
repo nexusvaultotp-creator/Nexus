@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Vault | Institutional Crypto Settlement</title>
+    <style>
+        /* same CSS as before – unchanged */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', system-ui, sans-serif; background: linear-gradient(135deg, #f9fafb 0%, #ffffff 100%); color: #111827; }
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
+        header { background: white; border-bottom: 1px solid #e5e7eb; position: sticky; top: 0; z-index: 50; }
+        .header-inner { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; }
+        .logo { font-size: 1.5rem; font-weight: 800; background: linear-gradient(135deg, #1e3a8a, #3b82f6); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .btn { padding: 0.5rem 1.25rem; border-radius: 2rem; font-weight: 600; cursor: pointer; border: none; transition: 0.2s; }
+        .btn-outline { background: transparent; border: 1px solid #3b82f6; color: #3b82f6; }
+        .btn-primary { background: #3b82f6; color: white; }
+        .hero { display: flex; flex-wrap: wrap; align-items: center; gap: 2rem; padding: 4rem 0; }
+        .hero-text { flex: 1; }
+        .hero-text h1 { font-size: 3rem; font-weight: 800; margin-bottom: 1rem; }
+        .hero-image { flex: 1; text-align: center; }
+        .hero-image img { max-width: 100%; border-radius: 2rem; box-shadow: 0 20px 35px -10px rgba(0,0,0,0.1); }
+        .benefits { padding: 4rem 0; background: white; border-top: 1px solid #e5e7eb; border-bottom: 1px solid #e5e7eb; }
+        .section-title { text-align: center; font-size: 2rem; font-weight: 700; margin-bottom: 2rem; }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
+        .card { background: #f9fafb; border-radius: 1.5rem; padding: 1.5rem; border: 1px solid #e5e7eb; }
+        .sponsors { padding: 2rem 0; background: #f3f4f6; text-align: center; }
+        .sponsor-logos { display: flex; flex-wrap: wrap; justify-content: center; gap: 3rem; font-weight: 500; color: #4b5563; }
+        .steps { padding: 4rem 0; }
+        .step { display: flex; gap: 1rem; margin-bottom: 2rem; }
+        .step-number { width: 2.5rem; height: 2.5rem; background: #3b82f6; color: white; border-radius: 2rem; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0; }
+        .dashboard-card { background: white; border-radius: 1.5rem; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05); border: 1px solid #e5e7eb; }
+        input, select { width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 1rem; margin-bottom: 0.5rem; }
+        .status { display: inline-block; padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.75rem; font-weight: 600; }
+        .status-pending { background: #fef3c7; color: #92400e; }
+        .status-received { background: #dcfce7; color: #166534; }
+        .status-credited { background: #dbeafe; color: #1e40af; }
+        .mono { font-family: monospace; font-size: 0.8rem; }
+        .hidden { display: none; }
+        footer { background: #1f2937; color: #9ca3af; text-align: center; padding: 2rem; margin-top: 3rem; }
+        @media (max-width: 768px) { .hero { flex-direction: column; text-align: center; } .hero-text h1 { font-size: 2rem; } }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-inner">
+            <div class="logo">Nexus Vault</div>
+            <div id="authButtons">
+                <button id="showLoginBtn" class="btn btn-outline">Login</button>
+                <button id="showRegisterBtn" class="btn btn-primary">Register</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Landing Page -->
+    <div id="landingPage">
+        <div class="container hero">
+            <div class="hero-text">
+                <h1>Instant crypto settlement<br>Bank credit in 48 hours</h1>
+                <p>Institutional‑grade infrastructure for BTC, ETH, and USDT. Manual verification and automated SWIFT bridge.</p>
+            </div>
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=600&h=400&fit=crop" alt="Bitcoin">
+            </div>
+        </div>
+        <div class="benefits">
+            <div class="container">
+                <h2 class="section-title">Why Nexus Vault</h2>
+                <div class="grid-3">
+                    <div class="card"><h3>Real blockchain verification</h3><p>Manual check against mainnet BTC, ETH, USDT.</p></div>
+                    <div class="card"><h3>48‑hour bank credit</h3><p>After settlement, funds credited with SWIFT reference.</p></div>
+                    <div class="card"><h3>Non‑custodial</h3><p>Assets go directly to your vault address.</p></div>
+                </div>
+            </div>
+        </div>
+        <div class="sponsors">
+            <div class="container">
+                <div class="sponsor-logos">
+                    <div>Chainlink</div><div>Coinbase</div><div>Fireblocks</div><div>Metamask Institutional</div><div>Ledger</div>
+                </div>
+            </div>
+        </div>
+        <div class="container steps">
+            <h2 class="section-title">How it works</h2>
+            <div class="step"><div class="step-number">1</div><div><strong>Create an order</strong> – Choose asset and amount, get deposit address.</div></div>
+            <div class="step"><div class="step-number">2</div><div><strong>Send crypto</strong> – Transfer exact amount to the provided address.</div></div>
+            <div class="step"><div class="step-number">3</div><div><strong>Manual verification</strong> – Click "Check Transaction" to match.</div></div>
+            <div class="step"><div class="step-number">4</div><div><strong>Bank credit</strong> – After 48 hours, receive SWIFT reference.</div></div>
+        </div>
+
+        <!-- Auth Forms (email + secret phrase) -->
+        <div class="container" style="max-width: 500px; margin: 2rem auto;">
+            <div id="loginForm" class="dashboard-card">
+                <h3>Sign in</h3>
+                <input type="email" id="loginEmail" placeholder="Email">
+                <input type="text" id="loginPhrase" placeholder="7‑word secret phrase">
+                <button id="doLogin" class="btn btn-primary" style="width:100%">Login</button>
+                <div id="loginMsg" class="hidden" style="color:red; margin-top:0.5rem;"></div>
+            </div>
+            <div id="regForm" class="dashboard-card hidden">
+                <h3>Create account</h3>
+                <input type="email" id="regEmail" placeholder="Email">
+                <button id="doRegister" class="btn btn-primary" style="width:100%">Register</button>
+                <div id="regMsg" class="hidden" style="color:red; margin-top:0.5rem;"></div>
+                <div id="generatedPhrase" class="hidden" style="background:#e6f7e6; padding:0.75rem; border-radius:1rem; margin-top:1rem; word-break:break-all;"></div>
+            </div>
+            <div style="text-align:center; margin-top:1rem;">
+                <button id="switchToReg" style="background:none; border:none; color:#3b82f6; cursor:pointer;">Need an account? Register</button>
+                <button id="switchToLogin" class="hidden" style="background:none; border:none; color:#3b82f6; cursor:pointer;">Back to login</button>
+            </div>
+        </div>
+        <footer>© 2025 Nexus Vault – Simulated settlement platform. All assets remain in your wallet.</footer>
+    </div>
+
+    <!-- Dashboard (after login) -->
+    <div id="dashboardPage" class="container hidden">
+        <div class="dashboard-card" style="display:flex; justify-content:space-between; align-items:center;">
+            <h2>Dashboard</h2>
+            <div><span id="userEmail"></span> <button id="logoutBtn" class="btn btn-outline" style="margin-left:1rem">Sign out</button></div>
+        </div>
+        <div class="dashboard-card">
+            <h3>Create deposit order</h3>
+            <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+                <select id="assetSelect" style="flex:1"><option value="BTC">Bitcoin (BTC)</option><option value="ETH">Ethereum (ETH)</option><option value="USDT">Tether (USDT)</option></select>
+                <input type="number" id="orderAmount" step="0.001" placeholder="Amount" style="flex:1">
+                <button id="createOrderBtn" class="btn btn-primary">Create Order</button>
+            </div>
+            <div id="orderInfo" class="hidden" style="background:#e6f7e6; padding:0.75rem; border-radius:1rem; margin-top:1rem;"></div>
+        </div>
+        <div class="dashboard-card">
+            <h3>Transaction history & bank credit status</h3>
+            <div style="overflow-x:auto;">
+                <table style="width:100%">
+                    <thead><tr><th>Order ID</th><th>Asset</th><th>Amount</th><th>Status</th><th>Detected at</th><th>Bank credit ETA / SWIFT</th><th>Action</th></thead>
+                    <tbody id="ordersBody"><tr><td colspan="7">Loading...</tr></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API = '';
+        async function fetchJSON(url, options={}) {
+            const res = await fetch(url, { ...options, headers: { 'Content-Type':'application/json' } });
+            if (!res.ok) throw new Error((await res.json()).error || 'Request failed');
+            return res.json();
+        }
+
+        function showLoginForm() {
+            document.getElementById('loginForm').classList.remove('hidden');
+            document.getElementById('regForm').classList.add('hidden');
+            document.getElementById('switchToReg').classList.remove('hidden');
+            document.getElementById('switchToLogin').classList.add('hidden');
+            document.getElementById('generatedPhrase').classList.add('hidden');
+        }
+        function showRegForm() {
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('regForm').classList.remove('hidden');
+            document.getElementById('switchToReg').classList.add('hidden');
+            document.getElementById('switchToLogin').classList.remove('hidden');
+            document.getElementById('generatedPhrase').classList.add('hidden');
+        }
+        document.getElementById('switchToReg').onclick = showRegForm;
+        document.getElementById('switchToLogin').onclick = showLoginForm;
+        document.getElementById('showLoginBtn').onclick = () => { showLoginForm(); document.getElementById('landingPage').scrollIntoView({ behavior: 'smooth' }); };
+        document.getElementById('showRegisterBtn').onclick = () => { showRegForm(); document.getElementById('landingPage').scrollIntoView({ behavior: 'smooth' }); };
+
+        async function checkLogin() {
+            try {
+                const res = await fetch(`${API}/api/me`);
+                if (res.ok) {
+                    document.getElementById('landingPage').classList.add('hidden');
+                    document.getElementById('dashboardPage').classList.remove('hidden');
+                    loadDashboard();
+                } else {
+                    document.getElementById('landingPage').classList.remove('hidden');
+                    document.getElementById('dashboardPage').classList.add('hidden');
+                }
+            } catch(e) {}
+        }
+
+        async function loadDashboard() {
+            const data = await fetchJSON(`${API}/api/me`);
+            document.getElementById('userEmail').innerText = data.user.email;
+            renderOrders(data.orders);
+        }
+
+        function renderOrders(orders) {
+            const tbody = document.getElementById('ordersBody');
+            if (!orders.length) { tbody.innerHTML = '<tr><td colspan="7">No orders. Create one above.</td></tr>'; return; }
+            let html = '';
+            for (let o of orders) {
+                let statusClass = o.status==='pending_match' ? 'status-pending' : (o.status==='received' ? 'status-received' : 'status-credited');
+                let statusText = o.status==='pending_match' ? 'Pending' : (o.status==='received' ? 'Received' : 'Credited');
+                let eta = '';
+                if (o.status === 'received' && o.scheduled_credit_at) {
+                    const diff = o.scheduled_credit_at - Date.now();
+                    if (diff > 0) eta = `${Math.floor(diff/3600000)}h ${Math.floor((diff%3600000)/60000)}m`;
+                    else eta = 'Processing';
+                } else if (o.status === 'credited') eta = `SWIFT: ${o.swift_ref || 'completed'}`;
+                else eta = '—';
+                let checkButton = o.status === 'pending_match' ? `<button class="btn btn-outline check-tx" data-id="${o.id}" style="padding:0.25rem 0.75rem; font-size:0.75rem;">Check transaction</button>` : '—';
+                html += `<tr>
+                    <td class="mono">${o.id}</td>
+                    <td>${o.asset}</td>
+                    <td>${o.amount}</td>
+                    <td><span class="status ${statusClass}">${statusText}</span></td>
+                    <td>${o.received_at ? new Date(o.received_at).toLocaleString() : '—'}</td>
+                    <td>${eta}</td>
+                    <td>${checkButton}</td>
+                </tr>`;
+            }
+            tbody.innerHTML = html;
+            document.querySelectorAll('.check-tx').forEach(btn => {
+                btn.onclick = async () => {
+                    const orderId = btn.getAttribute('data-id');
+                    try {
+                        const res = await fetchJSON(`${API}/api/check-transaction`, { method:'POST', body: JSON.stringify({ orderId }) });
+                        alert(res.message || `Status: ${res.status}`);
+                        loadDashboard();
+                    } catch(e) { alert(e.message); }
+                };
+            });
+        }
+
+        // Registration: get email, backend returns 7-word phrase
+        document.getElementById('doRegister').onclick = async () => {
+            const email = document.getElementById('regEmail').value;
+            if (!email || !email.includes('@')) return alert('Valid email required');
+            try {
+                const data = await fetchJSON(`${API}/api/register`, { method:'POST', body: JSON.stringify({ email }) });
+                document.getElementById('generatedPhrase').innerHTML = `<strong>Your secret phrase (save it):</strong><br>${data.phrase}`;
+                document.getElementById('generatedPhrase').classList.remove('hidden');
+                document.getElementById('regMsg').innerHTML = 'Registration successful! You can now login.';
+                document.getElementById('regMsg').classList.remove('hidden');
+                // clear email field for next registration
+            } catch(e) { document.getElementById('regMsg').innerHTML = e.message; document.getElementById('regMsg').classList.remove('hidden'); }
+        };
+
+        // Login: email + phrase
+        document.getElementById('doLogin').onclick = async () => {
+            const email = document.getElementById('loginEmail').value;
+            const phrase = document.getElementById('loginPhrase').value;
+            try {
+                await fetchJSON(`${API}/api/login`, { method:'POST', body: JSON.stringify({ email, phrase }) });
+                checkLogin();
+            } catch(e) { document.getElementById('loginMsg').innerHTML = e.message; document.getElementById('loginMsg').classList.remove('hidden'); }
+        };
+
+        document.getElementById('logoutBtn').onclick = async () => {
+            await fetchJSON(`${API}/api/logout`, { method:'POST' });
+            checkLogin();
+        };
+        document.getElementById('createOrderBtn').onclick = async () => {
+            const asset = document.getElementById('assetSelect').value;
+            const amount = parseFloat(document.getElementById('orderAmount').value);
+            if (isNaN(amount) || amount <= 0) return alert('Enter valid amount');
+            try {
+                const res = await fetchJSON(`${API}/api/create-order`, { method:'POST', body: JSON.stringify({ asset, amount }) });
+                document.getElementById('orderInfo').innerHTML = `Order created! Send exactly ${amount} ${asset} to:<br><span class="mono">${res.address}</span><br>After sending, click "Check transaction" on the order.`;
+                document.getElementById('orderInfo').classList.remove('hidden');
+                loadDashboard();
+            } catch(e) { alert(e.message); }
+        };
+        setInterval(() => { if (!document.getElementById('dashboardPage').classList.contains('hidden')) loadDashboard(); }, 5000);
+        checkLogin();
+    </script>
+</body>
+</html>
